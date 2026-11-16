@@ -1,0 +1,23 @@
+{
+  "name": "pipeline-unit-test",
+  "version": "1.0.0",
+  "description": "Automated unit test for data pipelines (Mapping Spec vs SQL vs DDL vs Sample Data)",
+  "main": "src/runner.js",
+  "scripts": {
+    "sample": "node scripts/generate-sample.js",
+    "report": "node src/cli.js",
+    "serve": "node src/server.js",
+    "test": "node --test test/engine.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "express": "^5.3.0",
+    "multer": "^2.5.0"
+  },
+  "engines": {
+    "node": ">=22.5"
+  }
+}
