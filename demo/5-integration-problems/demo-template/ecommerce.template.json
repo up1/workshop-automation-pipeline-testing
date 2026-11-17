@@ -1,0 +1,71 @@
+{
+  "_comment": "Scenario template. Rebuilds the same data as golden_ecommerce.db. Edit/add scenarios, then run: node seeder.mjs -t scenarios/ecommerce.template.json",
+  "timezone": "+07:00",
+  "businessDate": "2026-11-01",
+  "startOrderId": 1001,
+  "startPaymentId": 5001,
+
+  "products": [
+    { "id": 1, "sku": "SKU-TSH-001", "name": "เสื้อยืดคอกลม",           "category": "Apparel",     "price": 299,  "stock_qty": 120, "is_active": 1 },
+    { "id": 2, "sku": "SKU-MOU-001", "name": "Wireless Mouse",           "category": "Electronics", "price": 590,  "stock_qty": 45,  "is_active": 1 },
+    { "id": 3, "sku": "SKU-KEY-001", "name": "Mechanical Keyboard",      "category": "Electronics", "price": 2490, "stock_qty": 12,  "is_active": 1 },
+    { "id": 4, "sku": "SKU-BTL-001", "name": "Water Bottle 750ml",       "category": "Home",        "price": 350,  "stock_qty": 0,   "is_active": 1 },
+    { "id": 5, "sku": "SKU-NTB-001", "name": "Notebook A5",              "category": "Stationery",  "price": 89,   "stock_qty": 500, "is_active": 1 },
+    { "id": 6, "sku": "SKU-CSE-001", "name": "Phone Case",               "category": "Accessories", "price": 199,  "stock_qty": 80,  "is_active": 1 },
+    { "id": 7, "sku": "SKU-CBL-001", "name": "USB-C Cable 1m",           "category": "Electronics", "price": 149,  "stock_qty": 300, "is_active": 1 },
+    { "id": 8, "sku": "SKU-LMP-001", "name": "Desk Lamp (discontinued)", "category": "Home",        "price": 890,  "stock_qty": 3,   "is_active": 0 }
+  ],
+
+  "scenarios": [
+    { "id": "happy_card_delivered", "description": "Happy path: card paid, delivered", "customer": "C001",
+      "order": { "date": "2026-11-01T09:15:00", "sku": "SKU-TSH-001", "quantity": 2, "status": "DELIVERED" },
+      "payments": [ { "method": "CARD", "status": "SUCCESS" } ] },
+
+    { "id": "happy_promptpay_shipped", "description": "Happy path: PromptPay paid, shipped", "customer": "C002",
+      "order": { "date": "2026-11-01T10:30:00", "sku": "SKU-KEY-001", "quantity": 1, "status": "SHIPPED" },
+      "payments": [ { "method": "PROMPTPAY", "status": "SUCCESS" } ] },
+
+    { "id": "pending_bank_transfer", "description": "Awaiting bank transfer (payment PENDING)", "customer": "C003",
+      "order": { "date": "2026-11-01T11:00:00", "sku": "SKU-MOU-001", "quantity": 1, "status": "PENDING" },
+      "payments": [ { "method": "BANK_TRANSFER", "status": "PENDING" } ] },
+
+    { "id": "bulk_paid_not_shipped", "description": "Bulk quantity, paid, not yet shipped", "customer": "C004",
+      "order": { "date": "2026-11-01T12:20:00", "sku": "SKU-NTB-001", "quantity": 10, "status": "PAID" },
+      "payments": [ { "method": "CARD", "status": "SUCCESS" } ] },
+
+    { "id": "card_failed_cancelled", "description": "Card payment FAILED -> order cancelled", "customer": "C005",
+      "order": { "date": "2026-11-01T13:45:00", "sku": "SKU-CSE-001", "quantity": 1, "status": "CANCELLED" },
+      "payments": [ { "method": "CARD", "status": "FAILED" } ] },
+
+    { "id": "full_refund", "description": "Full refund after payment", "customer": "C001",
+      "order": { "date": "2026-11-02T08:05:00", "sku": "SKU-CBL-001", "quantity": 3, "status": "REFUNDED" },
+      "payments": [ { "method": "PROMPTPAY", "status": "REFUNDED", "refund": "full" } ] },
+
+    { "id": "partial_refund", "description": "Partial refund (500) after delivery", "customer": "C006",
+      "order": { "date": "2026-11-02T09:40:00", "sku": "SKU-KEY-001", "quantity": 1, "status": "DELIVERED" },
+      "payments": [ { "method": "CARD", "status": "PARTIAL_REFUND", "refund": 500 } ] },
+
+    { "id": "cancelled_no_payment", "description": "Edge: cancelled before any payment (no payment row)", "customer": "C007",
+      "order": { "date": "2026-11-02T14:10:00", "sku": "SKU-MOU-001", "quantity": 2, "status": "CANCELLED" },
+      "payments": [] },
+
+    { "id": "cod_shipped_pending", "description": "COD: shipped, payment still PENDING", "customer": "C008",
+      "order": { "date": "2026-11-03T10:00:00", "sku": "SKU-TSH-001", "quantity": 1, "status": "SHIPPED" },
+      "payments": [ { "method": "COD", "status": "PENDING" } ] },
+
+    { "id": "out_of_stock_cancelled", "description": "Edge: product out of stock -> cancelled, no payment", "customer": "C002",
+      "order": { "date": "2026-11-03T15:30:00", "sku": "SKU-BTL-001", "quantity": 1, "status": "CANCELLED" },
+      "payments": [] },
+
+    { "id": "inactive_product_history", "description": "Historic order of now-inactive product", "customer": "C009",
+      "order": { "date": "2026-10-15T16:00:00", "sku": "SKU-LMP-001", "quantity": 1, "status": "DELIVERED" },
+      "payments": [ { "method": "CARD", "status": "SUCCESS" } ] },
+
+    { "id": "payment_retry", "description": "Payment retry: first FAILED then SUCCESS", "customer": "C010",
+      "order": { "date": "2026-11-03T18:25:00", "sku": "SKU-NTB-001", "quantity": 1, "status": "PAID" },
+      "payments": [
+        { "method": "CARD",      "status": "FAILED" },
+        { "method": "PROMPTPAY", "status": "SUCCESS", "paidAfterSec": 160 }
+      ] }
+  ]
+}

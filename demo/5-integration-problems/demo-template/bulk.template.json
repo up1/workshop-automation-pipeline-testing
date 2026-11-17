@@ -1,0 +1,55 @@
+{
+  "_comment": "Example of generating volume: 'repeat' clones a scenario N times. '{n}' in customer becomes 1..N. Products already in the DB are reused by SKU (so 'products' can be omitted).",
+  "timezone": "+07:00",
+  "businessDate": "2026-11-17",
+  "startOrderId": 9001,
+  "startPaymentId": 19001,
+  "products": [
+    {
+      "sku": "SKU-TSH-001",
+      "name": "เสื้อยืดคอกลม",
+      "category": "Apparel",
+      "price": 299,
+      "stock_qty": 120,
+      "is_active": 1
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "bulk_paid_delivered",
+      "description": "Generated: paid and delivered orders",
+      "repeat": 20,
+      "customer": "BULK-{n}",
+      "order": {
+        "dayOffset": -1,
+        "sku": "SKU-TSH-001",
+        "quantity": 1,
+        "status": "DELIVERED"
+      },
+      "payments": [
+        {
+          "method": "CARD",
+          "status": "SUCCESS"
+        }
+      ]
+    },
+    {
+      "id": "bulk_failed_payment",
+      "description": "Generated: failed payments",
+      "repeat": 5,
+      "customer": "BULKF-{n}",
+      "order": {
+        "dayOffset": 0,
+        "sku": "SKU-TSH-001",
+        "quantity": 2,
+        "status": "CANCELLED"
+      },
+      "payments": [
+        {
+          "method": "CARD",
+          "status": "FAILED"
+        }
+      ]
+    }
+  ]
+}
