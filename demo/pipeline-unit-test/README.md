@@ -36,8 +36,8 @@ CLI: `node src/cli.js --mapping x.xlsx --ddl dir --sql dir --data dir --out repo
 | STR | Spec vs DDL | ตาราง/คอลัมน์มีจริง, Data type, Nullable, PK ตรงกัน, rule อ้างอิงคอลัมน์ที่มีใน DDL |
 | SQL | Spec vs SQL | คอลัมน์ถูก INSERT ครบ/ไม่เกิน, จำนวน column=expression, expression ตรงกับ rule, FROM/WHERE/GROUP BY ตรงกับ Spec |
 | SRC | Source data | PK ซ้ำ, NOT NULL, ชนิดข้อมูล/ความยาว/วันที่, FK orphan, คอลัมน์ครบตาม DDL |
-| EXC | Exception pre-check | rule รันได้ไหม, ค่าที่ได้ละเมิด NOT NULL/ความยาว/precision ไหม, เสี่ยงหารด้วยศูนย์ |
-| EXE | Execution | DDL/SQL รันได้ไหม (จับ error จริงเช่น UNIQUE violation), FK หลังโหลด |
+| EXC | Exception pre-check | rule รันได้ไหม, ค่าที่ได้ละเมิด NOT NULL/ความยาว/precision หรือไม่ , หารด้วยศูนย์ |
+| EXE | Execution | DDL/SQL รันได้หรือไม่ (จับ error จริงเช่น UNIQUE violation), FK หลังโหลด |
 | DAT | Data validation | row count, key ครบ/ไม่เกิน, PK ไม่ซ้ำ, ค่ารายคอลัมน์เท่ากับ rule |
 
 ## รายงาน Excel
