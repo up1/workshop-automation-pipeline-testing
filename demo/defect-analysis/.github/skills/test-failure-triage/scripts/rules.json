@@ -1,0 +1,85 @@
+{
+  "description": "Failure classification rules. First match wins; order = precedence (Environment > Test Data > Script > Defect). pattern is a JS regex source, flags its flags.",
+  "rules": [
+    {
+      "id": "ENV-NET",
+      "category": "Environment Issue",
+      "confidence": "high",
+      "pattern": "ECONNREFUSED|ECONNRESET|ENOTFOUND|EAI_AGAIN|ETIMEDOUT|getaddrinfo|socket hang up|net::ERR_(CONNECTION|NAME_NOT_RESOLVED|INTERNET_DISCONNECTED|TIMED_OUT)",
+      "flags": "i",
+      "reason": "Network/connection error: service unreachable"
+    },
+    {
+      "id": "ENV-5XX-GW",
+      "category": "Environment Issue",
+      "confidence": "high",
+      "pattern": "(Received|status)[^\\n]{0,20}\\b(502|503|504)\\b|Bad Gateway|Service Unavailable|Gateway Time-?out",
+      "flags": "i",
+      "reason": "Gateway/unavailable response (502/503/504)"
+    },
+    {
+      "id": "ENV-INFRA",
+      "category": "Environment Issue",
+      "confidence": "high",
+      "pattern": "browserType\\.launch|Executable doesn't exist|webServer|ENOSPC|out of memory|ENOMEM|EADDRINUSE|Target (page, context or )?browser has been closed",
+      "flags": "i",
+      "reason": "Runner/infrastructure problem (browser, web server, disk, memory, port)"
+    },
+    {
+      "id": "ENV-500",
+      "category": "Environment Issue",
+      "confidence": "medium",
+      "pattern": "(Received|status)[^\\n]{0,20}\\b500\\b|Internal Server Error",
+      "flags": "i",
+      "reason": "500 from server; may be a real defect, check server log"
+    },
+    {
+      "id": "DATA-DUP",
+      "category": "Test Data Issue",
+      "confidence": "high",
+      "pattern": "duplicate key|UNIQUE constraint|already exists|SQLITE_CONSTRAINT|violates (unique|foreign key)|(Received|status)[^\\n]{0,20}\\b409\\b",
+      "flags": "i",
+      "reason": "Duplicate/constraint conflict: data left over from earlier run or not unique"
+    },
+    {
+      "id": "DATA-MISSING",
+      "category": "Test Data Issue",
+      "confidence": "medium",
+      "pattern": "no such (user|record|row)|(record|data|user|order|row)s? (was |were )?not found|no rows|seed(ed|ing)? (data )?(missing|failed)|fixture[^\\n]{0,30}(missing|not found)|USER_NOT_FOUND",
+      "flags": "i",
+      "reason": "Expected data is missing: seed/fixture not loaded or wrong"
+    },
+    {
+      "id": "SCRIPT-LOCATOR",
+      "category": "Script Issue",
+      "confidence": "high",
+      "pattern": "waiting for (locator|getBy\\w+|selector)|strict mode violation|element\\(s\\) not found|intercepts pointer events|element is not (visible|stable|enabled|attached)|Locator:\\s",
+      "flags": "i",
+      "reason": "Locator not found/ambiguous/not actionable: script or selector problem"
+    },
+    {
+      "id": "SCRIPT-CODE",
+      "category": "Script Issue",
+      "confidence": "high",
+      "pattern": "\\b(TypeError|ReferenceError|SyntaxError)\\b|is not a function|Cannot read propert|is not defined|is undefined",
+      "flags": "i",
+      "reason": "Error in test code itself"
+    },
+    {
+      "id": "SCRIPT-TIMEOUT",
+      "category": "Script Issue",
+      "confidence": "medium",
+      "pattern": "Test timeout of \\d+ms exceeded|Timeout \\d+ms exceeded|page\\.waitFor\\w*: Timeout",
+      "flags": "i",
+      "reason": "Test timed out with no sign of an environment problem: wait/sync problem in script"
+    },
+    {
+      "id": "DEFECT-ASSERT",
+      "category": "Defect",
+      "confidence": "medium",
+      "pattern": "expect\\(|AssertionError|Expected[^\\n]*\\n?[^\\n]*Received|expected .* (to|but)",
+      "flags": "i",
+      "reason": "Assertion on business behavior failed while script and environment look healthy"
+    }
+  ]
+}

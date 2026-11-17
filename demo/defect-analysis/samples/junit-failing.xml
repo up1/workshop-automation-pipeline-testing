@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites id="" name="" tests="9" failures="6" skipped="0" errors="0" time="12.4">
+<testsuite name="api/login.api.spec.ts" hostname="api" tests="4" failures="3" skipped="0" errors="0" time="2.1">
+<testcase name="POST /api/login › 200 — admin login ok" classname="api/login.api.spec.ts" time="0.05"></testcase>
+<testcase name="POST /api/login › 403 — บัญชีถูกล็อก" classname="api/login.api.spec.ts" time="0.04">
+<failure message="login.api.spec.ts:40:5 403 — บัญชีถูกล็อก" type="FAILURE">
+<![CDATA[Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 403
+Received: 200
+    at login.api.spec.ts:44:30]]>
+</failure>
+</testcase>
+<testcase name="GET /api/me › 200 with valid token" classname="api/login.api.spec.ts" time="30.0">
+<failure message="login.api.spec.ts:60:5 200 with valid token" type="FAILURE">
+<![CDATA[Error: apiRequestContext.get: connect ECONNREFUSED 127.0.0.1:3100
+Call log:
+  - GET http://localhost:3100/api/me]]>
+</failure>
+</testcase>
+<testcase name="POST /api/register › 201 new user" classname="api/login.api.spec.ts" time="0.06">
+<failure message="login.api.spec.ts:75:5 201 new user" type="FAILURE">
+<![CDATA[Error: SQLITE_CONSTRAINT: UNIQUE constraint failed: users.username
+    at register (src/app.js:33)]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="ui/login.real.spec.ts" hostname="ui-real" tests="5" failures="3" skipped="0" errors="0" time="10.3">
+<testcase name="Login UI › admin login success" classname="ui/login.real.spec.ts" time="1.2"></testcase>
+<testcase name="Login UI › show error on wrong password" classname="ui/login.real.spec.ts" time="5.1">
+<failure message="login.real.spec.ts:22:5 show error on wrong password" type="FAILURE">
+<![CDATA[Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('error-msg')
+Expected: visible
+Received: <element(s) not found>
+Timeout: 5000ms]]>
+</failure>
+</testcase>
+<testcase name="Login UI › logout button" classname="ui/login.real.spec.ts" time="0.3">
+<error message="TypeError: loginPage.logout is not a function" type="Error">
+<![CDATA[TypeError: loginPage.logout is not a function
+    at login.real.spec.ts:51:19]]>
+</error>
+</testcase>
+<testcase name="Login UI › remember me" classname="ui/login.real.spec.ts" time="2.0">
+<failure message="login.real.spec.ts:60:5 remember me" type="FAILURE">
+<![CDATA[Error: something odd happened]]>
+</failure>
+</testcase>
+<testcase name="Login UI › session refresh (retry)" classname="ui/login.real.spec.ts" time="3.0">
+<flakyFailure message="Timeout 5000ms exceeded" type="FAILURE">
+<![CDATA[Error: page.waitForResponse: Timeout 5000ms exceeded]]>
+</flakyFailure>
+</testcase>
+</testsuite>
+</testsuites>
