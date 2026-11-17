@@ -23,7 +23,7 @@ Classify failed tests from JUnit XML into root-cause groups so the right team ac
 1. **Find the result files.** Use paths the user gave. Otherwise look for `junit.xml` or `*.xml` under `results/`, `test-results/`, `samples/`. If none exist, say so and stop; do not invent results.
 2. **Run the classifier** (from this folder, or use the absolute path to the script):
    ```bash
-   node .claude/skills/test-failure-triage/scripts/classify.mjs <junit.xml> [more.xml] --md triage-report.md --json triage-report.json
+   node .github/skills/test-failure-triage/scripts/classify.mjs <junit.xml> [more.xml] --md triage-report.md --json triage-report.json
    ```
 3. **Review the output.** Read `references/classification-rules.md` for rule meanings. For each failure:
    - `Needs review` (rule `NONE`): read the evidence in the XML and propose a category with your reasoning, marked as your judgment.
