@@ -5,6 +5,7 @@
 ```
 # ดูแผนก่อน ยังไม่เขียนข้อมูลลง DB
 node seeder.mjs -t scenarios/bulk.template.json --dry-run
+node seeder.mjs -t scenarios/ecommerce.template.json --dry-run
 
 # seed ข้อมูลจาก template
 node seeder.mjs -t scenarios/ecommerce.template.json --db seeded.db
