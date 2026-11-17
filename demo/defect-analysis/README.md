@@ -16,7 +16,7 @@ Skill `test-failure-triage` อ่านผลทดสอบแบบ JUnit XML
 ## โครงสร้าง
 
 ```
-.claude/skills/test-failure-triage/
+.github/skills/test-failure-triage/
   SKILL.md                          ขั้นตอนและกติกาของ skill
   references/classification-rules.md  ตารางกฎจัดกลุ่ม
   scripts/classify.mjs              ตัวอ่าน JUnit และจัดกลุ่ม (Node ไม่ต้องติดตั้ง package)
